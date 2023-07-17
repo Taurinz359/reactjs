@@ -1,12 +1,12 @@
-import './App.css';
+import './assets/css/App.css';
 import './components/Header';
 import ButtonAppBar from './components/Header';
-function App() {
+const App = () => {
   return (
-    <div>
+    <>
       <ButtonAppBar />
-    </div>
+    </>
   );
-}
+};
 
 export default App;
