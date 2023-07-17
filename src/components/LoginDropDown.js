@@ -1,10 +1,14 @@
 import * as React from 'react';
 import Popover from '@mui/material/Popover';
 import Button from '@mui/material/Button';
-import { TextFields, TextFieldsOutlined } from '@mui/icons-material';
+import { TextField } from '@mui/material';
 
 export default function BasicPopover() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(false);
+  const [loginData, setLoginData] = React.useState({
+    username: '',
+    password: '',
+  });
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -14,13 +18,16 @@ export default function BasicPopover() {
     setAnchorEl(null);
   };
 
+  const handleChange = (e) => {};
+  const handleSend = () => {};
+
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
   return (
     <div>
       <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-        Login
+        Войти
       </Button>
       <Popover
         id={id}
@@ -29,18 +36,34 @@ export default function BasicPopover() {
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'left',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
         }}
       >
-        <div style={{ padding: '16px' }}>
-          <TextFieldsOutlined label="Логин" variant="outlined" fullWidth >
-            Login
-          </TextFieldsOutlined>
-          <TextFieldsOutlined label="Пароль" variant="outlined" type="password" fullWidth />
-          <Button variant="contained" color="primary" fullWidth>
+        <form style={{ padding: '16px' }}>
+          <TextField
+            sx={{ marginBottom: '6px' }}
+            name="username"
+            label="Логин"
+            variant="outlined"
+            fullWidth
+            onChange={handleChange}
+          />
+          <TextField
+            sx={{ marginBottom: '6px' }}
+            label="Пароль"
+            variant="outlined"
+            type="password"
+            fullWidth
+            onChange={handleChange}
+          />
+          <Button onClick={handleSend} variant="contained" color="primary" fullWidth>
             Войти
           </Button>
-        </div>
+        </form>
       </Popover>
     </div>
   );
