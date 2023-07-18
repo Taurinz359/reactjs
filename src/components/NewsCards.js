@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export default function NewsCards() {
   const loadNews = () => {
-    const news = axios
+    axios
       .get('https://jsonplaceholder.typicode.com/posts', {
         method: 'GET',
       })
