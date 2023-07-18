@@ -3,6 +3,7 @@ import Popover from '@mui/material/Popover';
 import Button from '@mui/material/Button';
 import { TextField } from '@mui/material';
 import { loginStore } from '../stores';
+import axios from 'axios';
 
 const BasicPopover = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -24,26 +25,21 @@ const BasicPopover = () => {
     }
   };
   const handleSendData = () => {
-    fetch('https://dummyjson.com/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(loginStore),
-    })
+    axios
+      .post('https://dummyjson.com/auth/login', loginStore)
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        setValidationError(true);
-        throw new Error('Error');
+        return res.data;
       })
       .then((data) => {
-        console.log(data);
         document.cookie = `token=${data.token}`;
         setValidationError(false);
         handleClose();
         setLogin(true);
       })
-      .catch(console.log);
+      .catch((err) => {
+        console.log(err);
+        setValidationError(true);
+      });
   };
 
   const handleCheckUser = (e) => {

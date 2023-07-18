@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Login from './LoginDropDown';
 
-export default function ButtonAppBar() {
+export default function HeaderBar() {
   return (
     <Box sx={{ flexGrow: 1, display: 'flex', width: '100%', justifyContent: 'center' }}>
       <AppBar position="static" sx={{ maxWidth: 'md' }}>

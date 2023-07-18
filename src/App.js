@@ -1,10 +1,13 @@
 import './assets/css/App.css';
 import './components/Header';
-import ButtonAppBar from './components/Header';
+import HeaderBar from './components/Header';
+import NewsCards from './components/NewsCards';
+
 const App = () => {
   return (
     <>
-      <ButtonAppBar />
+      <HeaderBar />
+      <NewsCards />
     </>
   );
 };
