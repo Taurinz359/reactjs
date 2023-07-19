@@ -1,19 +1,36 @@
-class newStore {
-  title = '';
-  body = '';
-  urlToImage = '';
+import { makeAutoObservable } from 'mobx';
+import axios from 'axios';
 
-  setTitle(title) {
-    this.title = title;
+class NewStore {
+  newsCount = 9;
+
+  newsList = [];
+  constructor() {
+    makeAutoObservable(this);
+  }
+  setNewsList(newsList) {
+    this.newsList = newsList;
   }
 
-  setBody(text) {
-    this.body = text;
+  loadNews() {
+    return axios
+      .get('https://jsonplaceholder.typicode.com/posts', {
+        method: 'GET',
+      })
+      .then((res) => {
+        return new Promise((resolve) =>
+          setTimeout(() => {
+            this.setNewsList(res.data.splice(0, this.newsCount));
+            resolve();
+          }, 1000),
+        );
+      })
+      .catch(console.log);
   }
 
-  setUrlToImage(url) {
-    this.urlToImage = url;
+  deleteNews(id) {
+    this.newsList = this.newsList.filter((item) => item.id !== id);
   }
 }
 
-export default newStore;
+export default NewStore;

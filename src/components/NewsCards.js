@@ -1,20 +1,18 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
-import { useEffect } from 'react';
-import axios from 'axios';
+import SkeletonNews from './Skeleton';
+import NewsCard from './NewsCard';
+import { useEffect, useState } from 'react';
+import { newsStore } from '../stores';
+import { observer } from 'mobx-react';
 
-export default function NewsCards() {
-  const loadNews = () => {
-    axios
-      .get('https://jsonplaceholder.typicode.com/posts', {
-        method: 'GET',
-      })
-      .then((res) => console.log(res.data))
-      .catch(console.log);
-  };
+const NewsCards = observer(() => {
+  const [skeleton, setSkeleton] = useState(true);
+  const newsCount = 9;
 
   useEffect(() => {
-    loadNews();
+    newsStore.loadNews().then(() => {
+      setSkeleton(false);
+    });
   }, []);
 
   return (
@@ -26,6 +24,24 @@ export default function NewsCards() {
         width: '100%',
         justifyContent: 'space-around',
       }}
-    ></Box>
+    >
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: 900,
+          padding: '0 30px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '20px',
+          marginTop: '10px',
+        }}
+      >
+        {skeleton
+          ? Array.from(Array(newsCount).keys()).map((_, index) => <SkeletonNews key={index} />)
+          : newsStore.newsList.map((item) => <NewsCard key={item.id} data={item} />)}
+      </Box>
+    </Box>
   );
-}
+});
+
+export default NewsCards;
